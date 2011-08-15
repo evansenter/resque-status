@@ -32,7 +32,7 @@ module Resque
     # The error class raised when a job is killed
     class Killed < RuntimeError; end
 
-    attr_reader :uuid, :options
+    attr_reader :uuid
 
     # The default queue is :statused, this can be ovveridden in the specific job
     # class to put the jobs on a specific worker queue
@@ -100,6 +100,10 @@ module Resque
     def initialize(uuid, options = {})
       @uuid    = uuid
       @options = options
+    end
+    
+    def options
+      HashWithIndifferentAccess.new(@options)
     end
 
     # Run by the Resque::Worker when processing this job. It wraps the <tt>perform</tt>
